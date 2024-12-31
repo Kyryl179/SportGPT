@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Web App</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Проверяем доступность Telegram Web App API
+      if (window.Telegram.WebApp) {
+        const user = Telegram.WebApp.initDataUnsafe?.user || {}; // Получаем данные пользователя
+        const userName = user.username || user.first_name || "Гость";
+
+        // Отображаем имя пользователя
+        document.getElementById("user-name").innerText = `Привет, ${userName}!`;
+      } else {
+        document.getElementById("user-name").innerText = "Telegram WebApp API недоступен.";
+      }
+    });
+  </script>
+</head>
+<body>
+  <div style="text-align: center; margin-top: 50px;">
+    <h1 id="user-name">Загрузка...</h1>
+    <p>Эта страница приветствует вас, используя Telegram Web App API.</p>
+  </div>
+</body>
+</html>
