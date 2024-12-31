@@ -10,10 +10,11 @@
         try {
           Telegram.WebApp.ready(); // Инициализация Web App
 
-          // Получаем данные о пользователе
+          // Получаем данные пользователя
           const user = Telegram.WebApp.initDataUnsafe?.user;
           console.log("Отладка: Данные пользователя:", user);
 
+          // Отображаем имя пользователя или сообщение об ошибке
           if (user) {
             const userName = user.username || user.first_name || "Гость";
             document.body.innerHTML = `<h1 style="text-align: center;">Привет, ${userName}!</h1>`;
@@ -22,11 +23,11 @@
           }
         } catch (error) {
           console.error("Ошибка при работе с Telegram Web App API:", error);
-          document.body.innerHTML = `<h1 style="text-align: center;">Произошла ошибка при загрузке данных.</h1>`;
+          document.body.innerHTML = `<h1 style="text-align: center;">Ошибка загрузки данных.</h1>`;
         }
       } else {
         console.warn("Telegram Web App API недоступен.");
-        document.body.innerHTML = `<h1 style="text-align: center;">Telegram Web App API недоступен.</h1>`;
+        document.body.innerHTML = `<h1 style="text-align: center;">Запустите это приложение в Telegram.</h1>`;
       }
     });
   </script>
