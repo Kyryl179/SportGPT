@@ -6,23 +6,32 @@
   <title>Telegram Web App</title>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Проверяем доступность Telegram Web App API
-      if (window.Telegram.WebApp) {
-        const user = Telegram.WebApp.initDataUnsafe?.user || {}; // Получаем данные пользователя
-        const userName = user.username || user.first_name || "Гость";
+      if (window.Telegram && window.Telegram.WebApp) {
+        try {
+          Telegram.WebApp.ready(); // Инициализация Web App
 
-        // Отображаем имя пользователя
-        document.getElementById("user-name").innerText = `Привет, ${userName}!`;
+          // Получаем данные о пользователе
+          const user = Telegram.WebApp.initDataUnsafe?.user;
+          console.log("Отладка: Данные пользователя:", user);
+
+          if (user) {
+            const userName = user.username || user.first_name || "Гость";
+            document.body.innerHTML = `<h1 style="text-align: center;">Привет, ${userName}!</h1>`;
+          } else {
+            document.body.innerHTML = `<h1 style="text-align: center;">Не удалось получить данные пользователя.</h1>`;
+          }
+        } catch (error) {
+          console.error("Ошибка при работе с Telegram Web App API:", error);
+          document.body.innerHTML = `<h1 style="text-align: center;">Произошла ошибка при загрузке данных.</h1>`;
+        }
       } else {
-        document.getElementById("user-name").innerText = "Telegram WebApp API недоступен.";
+        console.warn("Telegram Web App API недоступен.");
+        document.body.innerHTML = `<h1 style="text-align: center;">Telegram Web App API недоступен.</h1>`;
       }
     });
   </script>
 </head>
 <body>
-  <div style="text-align: center; margin-top: 50px;">
-    <h1 id="user-name">Загрузка...</h1>
-    <p>Эта страница приветствует вас, используя Telegram Web App API.</p>
-  </div>
+  <h1 style="text-align: center;">Загрузка...</h1>
 </body>
 </html>
