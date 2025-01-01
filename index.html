@@ -50,7 +50,6 @@
             z-index: 2;
         }
 
-        /* Stats Section */
         .stats {
             text-align: left;
             font-size: calc(1.2vw + 10px);
@@ -70,39 +69,48 @@
         .footer {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 20px;
             padding: 10px;
             background-color: #506a85;
             border-radius: 15px;
         }
 
-        .footer button {
-            background-color: #3c4f65;
-            border: 1px solid #7fc8f8;
-            border-radius: 10px;
-            padding: 5px;
-            cursor: pointer;
+        .footer a {
+            background-color: transparent;
+            border: none;
             display: flex;
             justify-content: center;
             align-items: center;
+            text-decoration: none;
+            border-radius: 50%;
             width: 50px;
             height: 50px;
+            overflow: hidden;
+            background-color: #3c4f65;
         }
 
-        .footer button img {
-            width: 30px;
-            height: 30px;
+        .footer img {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
         }
 
-        /* Pulse Animation */
+        .footer .center-icon img {
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Animations */
         @keyframes pulse {
             0% {
-                transform: scale(1);
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+                transform: scale(1.2);
+                opacity: 1;
             }
             100% {
-                transform: scale(1.2);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+                transform: scale(1.3);
+                opacity: 0.8;
             }
         }
     </style>
@@ -122,44 +130,59 @@
         </div>
 
         <div class="footer">
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon1" alt="icon1"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon2" alt="icon2"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon3" alt="icon3"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon4" alt="icon4"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon5" alt="icon5"></button>
+            <!-- Links with circular images -->
+            <a href="https://example.com/openai" target="_blank">
+                <img src="https://raw.githubusercontent.com/Kyryl179/SportGPT/refs/heads/main/openai.png" alt="OpenAI Icon">
+            </a>
+            <a href="https://example.com/notifications" target="_blank">
+                <img src="https://raw.githubusercontent.com/Kyryl179/SportGPT/refs/heads/main/notifications.png" alt="Notifications Icon">
+            </a>
+            <a href="https://example.com/sportgpt" class="center-icon" target="_blank">
+                <img src="https://raw.githubusercontent.com/Kyryl179/SportGPT/refs/heads/main/sportgpt.png" alt="SportGPT Icon">
+            </a>
+            <a href="https://example.com/train" target="_blank">
+                <img src="https://raw.githubusercontent.com/Kyryl179/SportGPT/refs/heads/main/train.png" alt="Train Icon">
+            </a>
+            <a href="https://example.com/settings" target="_blank">
+                <img src="https://raw.githubusercontent.com/Kyryl179/SportGPT/refs/heads/main/settings.png" alt="Settings Icon">
+            </a>
         </div>
     </div>
 
-<script>
-    // Get the circle element and percentage value
-    const circle = document.getElementById('circle');
-    const percentageText = document.getElementById('percentage');
-    const percentage = parseInt(circle.getAttribute('data-percent'), 10);
+    <script>
+        // Get the circle element and percentage value
+        const circle = document.getElementById('circle');
+        const percentage = parseInt(circle.getAttribute('data-percent'), 10);
 
-    // Function to calculate color based on percentage
-    function getColorByPercentage(percent) {
-        const red = Math.min(255, Math.floor((100 - percent) * 2.55)); // Red decreases as percentage increases
-        const green = Math.min(255, Math.floor(percent * 2.55)); // Green increases as percentage increases
-        return `rgb(${red}, ${green}, 100)`; // Blue stays constant
-    }
+        // Function to dynamically update the circle's appearance
+        function updateCircle(percentage) {
+            const colors = {
+                0: '#506a85',
+                25: '#ffbc00',
+                50: '#7fc8f8',
+                75: '#4dbf88',
+                100: '#00e676'
+            };
 
-    // Function to dynamically update the circle's appearance
-    function updateCircle(percent) {
-        const color = getColorByPercentage(percent);
-        circle.style.backgroundColor = color;
+            let color, animation = '';
 
-        if (percent >= 75) {
-            circle.style.animation = 'pulse 1.5s infinite alternate';
-        } else {
-            circle.style.animation = ''; // Remove animation for percentages < 75
+            if (percentage <= 25) {
+                color = colors[25];
+            } else if (percentage <= 50) {
+                color = colors[50];
+            } else if (percentage <= 75) {
+                color = colors[75];
+            } else {
+                color = colors[100];
+                animation = 'pulse 1.5s infinite alternate';
+            }
+
+            circle.style.backgroundColor = color;
+            circle.style.animation = animation;
         }
 
-        percentageText.textContent = `${percent}%`;
-    }
-
-    // Call the function to update the circle
-    updateCircle(percentage);
-</script>
-
+        // Call the function to update the circle
+        updateCircle(percentage);
+    </script>
 </body>
 </html>
