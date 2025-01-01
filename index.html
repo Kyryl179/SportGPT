@@ -28,69 +28,58 @@
         }
 
         .circle {
-            width: 150px;
-            height: 150px;
+            width: 40vw;
+            height: 40vw;
+            max-width: 150px;
+            max-height: 150px;
             border-radius: 50%;
+            border: 5px solid #7fc8f8;
             margin: 20px auto;
             position: relative;
             background-color: #506a85;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.5s ease;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 50%;
+            background: rgba(127, 200, 248, 0.8);
+            border-radius: 40%;
+            animation: wave-animation 4s infinite linear;
+            z-index: 1;
+        }
+
+        @keyframes wave-animation {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-25%) translateY(-5px);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         .circle span {
-            font-size: 24px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5vw;
+            max-font-size: 24px;
             font-weight: bold;
             color: #ffffff;
             z-index: 2;
         }
 
-        /* Effects for different percentages */
-        .circle[data-percent="0"] {
-            background-color: #506a85;
-        }
-
-        .circle[data-percent="25"] {
-            background-color: #ffbc00;
-            transform: scale(1.05);
-        }
-
-        .circle[data-percent="50"] {
-            background-color: #7fc8f8;
-            transform: rotate(180deg);
-        }
-
-        .circle[data-percent="75"] {
-            background-color: #4dbf88;
-            transform: scale(1.2);
-            box-shadow: 0 0 20px rgba(77, 191, 136, 0.8);
-        }
-
-        .circle[data-percent="100"] {
-            background-color: #4dbf88;
-            transform: scale(1.3);
-            box-shadow: 0 0 30px rgba(77, 191, 136, 0.8);
-            animation: pulse 1s infinite alternate;
-        }
-
-        /* Pulse effect at 100% */
-        @keyframes pulse {
-            0% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.3);
-                opacity: 0.8;
-            }
-        }
-
         .stats {
             text-align: left;
-            font-size: 18px;
+            font-size: 4vw;
+            max-font-size: 18px;
             margin: 20px 0;
         }
 
@@ -122,13 +111,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 50px;
-            height: 50px;
+            width: 12vw;
+            height: 12vw;
+            max-width: 50px;
+            max-height: 50px;
         }
 
         .footer button img {
-            width: 30px;
-            height: 30px;
+            width: 8vw;
+            height: 8vw;
+            max-width: 30px;
+            max-height: 30px;
         }
 
     </style>
@@ -136,8 +129,9 @@
 <body>
     <div class="container">
         <h1>SportGPT</h1>
-        <div class="circle" data-percent="25">
-            <span>25%</span>
+        <div class="circle">
+            <div class="wave"></div>
+            <span>70%</span>
         </div>
 
         <div class="stats">
@@ -155,29 +149,5 @@
             <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon5" alt="icon5"></button>
         </div>
     </div>
-
-    <script>
-        // Dynamic circle effect based on percentage
-        const circle = document.querySelector('.circle');
-        const percent = parseInt(circle.querySelector('span').textContent);
-
-        // Function to update the circle's data-percent attribute based on percentage
-        function updateCircleEffect(percentage) {
-            if (percentage === 0) {
-                circle.setAttribute('data-percent', '0');
-            } else if (percentage <= 25) {
-                circle.setAttribute('data-percent', '25');
-            } else if (percentage <= 50) {
-                circle.setAttribute('data-percent', '50');
-            } else if (percentage <= 75) {
-                circle.setAttribute('data-percent', '75');
-            } else {
-                circle.setAttribute('data-percent', '100');
-            }
-        }
-
-        // Call the function to update the effect based on the percentage
-        updateCircleEffect(percent);
-    </script>
 </body>
 </html>
