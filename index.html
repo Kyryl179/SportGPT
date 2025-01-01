@@ -19,19 +19,19 @@
 
         .container {
             width: 90%;
-            max-width: 400px;
+            max-width: 360px;
             background-color: #3c4f65;
             text-align: center;
             border-radius: 15px;
-            padding: 5%;
+            padding: 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .circle {
-            width: 40vw;
-            height: 40vw;
-            max-width: 150px;
-            max-height: 150px;
+            width: 45vw;
+            height: 45vw;
+            max-width: 200px;
+            max-height: 200px;
             border-radius: 50%;
             margin: 20px auto;
             position: relative;
@@ -44,16 +44,17 @@
         }
 
         .circle span {
-            font-size: 5vw;
+            font-size: calc(1.5vw + 12px);
             font-weight: bold;
             color: #ffffff;
             z-index: 2;
         }
 
+        /* Stats Section */
         .stats {
             text-align: left;
-            font-size: 4vw;
-            margin: 5% 0;
+            font-size: calc(1.2vw + 10px);
+            margin: 20px 0;
         }
 
         .stats div {
@@ -69,8 +70,8 @@
         .footer {
             display: flex;
             justify-content: space-between;
-            margin-top: 5%;
-            padding: 5%;
+            margin-top: 20px;
+            padding: 10px;
             background-color: #506a85;
             border-radius: 15px;
         }
@@ -84,55 +85,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 12vw;
-            height: 12vw;
-            max-width: 50px;
-            max-height: 50px;
+            width: 50px;
+            height: 50px;
         }
 
         .footer button img {
-            width: 8vw;
-            height: 8vw;
-            max-width: 30px;
-            max-height: 30px;
+            width: 30px;
+            height: 30px;
         }
 
-        /* Responsive Design for Smaller Screens */
-        @media (max-width: 480px) {
-            .container {
-                padding: 5%;
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
             }
-
-            .circle {
-                width: 50vw;
-                height: 50vw;
-            }
-
-            .circle span {
-                font-size: 6vw;
-            }
-
-            .stats {
-                font-size: 5vw;
-            }
-
-            .footer button {
-                width: 15vw;
-                height: 15vw;
-            }
-
-            .footer button img {
-                width: 10vw;
-                height: 10vw;
+            100% {
+                transform: scale(1.2);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 style="font-size: 6vw;">SportGPT</h1>
-        <div class="circle" data-percent="70">
-            <span>70%</span>
+        <h1>SportGPT</h1>
+        <div class="circle" id="circle" data-percent="70">
+            <span id="percentage">70%</span>
         </div>
 
         <div class="stats">
@@ -143,34 +122,44 @@
         </div>
 
         <div class="footer">
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=1" alt="icon1"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=2" alt="icon2"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=3" alt="icon3"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=4" alt="icon4"></button>
-            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=5" alt="icon5"></button>
+            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon1" alt="icon1"></button>
+            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon2" alt="icon2"></button>
+            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon3" alt="icon3"></button>
+            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon4" alt="icon4"></button>
+            <button><img src="https://via.placeholder.com/40/3c4f65/ffffff?text=Icon5" alt="icon5"></button>
         </div>
     </div>
 
-    <script>
-        // Dynamic circle effect based on percentage
-        const circle = document.querySelector('.circle');
-        const percent = parseInt(circle.querySelector('span').textContent);
+<script>
+    // Get the circle element and percentage value
+    const circle = document.getElementById('circle');
+    const percentageText = document.getElementById('percentage');
+    const percentage = parseInt(circle.getAttribute('data-percent'), 10);
 
-        function updateCircleEffect(percentage) {
-            if (percentage === 0) {
-                circle.setAttribute('data-percent', '0');
-            } else if (percentage <= 25) {
-                circle.setAttribute('data-percent', '25');
-            } else if (percentage <= 50) {
-                circle.setAttribute('data-percent', '50');
-            } else if (percentage <= 75) {
-                circle.setAttribute('data-percent', '75');
-            } else {
-                circle.setAttribute('data-percent', '100');
-            }
+    // Function to calculate color based on percentage
+    function getColorByPercentage(percent) {
+        const red = Math.min(255, Math.floor((100 - percent) * 2.55)); // Red decreases as percentage increases
+        const green = Math.min(255, Math.floor(percent * 2.55)); // Green increases as percentage increases
+        return `rgb(${red}, ${green}, 100)`; // Blue stays constant
+    }
+
+    // Function to dynamically update the circle's appearance
+    function updateCircle(percent) {
+        const color = getColorByPercentage(percent);
+        circle.style.backgroundColor = color;
+
+        if (percent >= 75) {
+            circle.style.animation = 'pulse 1.5s infinite alternate';
+        } else {
+            circle.style.animation = ''; // Remove animation for percentages < 75
         }
 
-        updateCircleEffect(percent);
-    </script>
+        percentageText.textContent = `${percent}%`;
+    }
+
+    // Call the function to update the circle
+    updateCircle(percentage);
+</script>
+
 </body>
 </html>
